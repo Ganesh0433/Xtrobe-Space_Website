@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Navbar from "./components/navbar";
 
 export default function Astronomy() {
   const [events, setEvents] = useState([]);
@@ -18,10 +19,40 @@ export default function Astronomy() {
       });
   }, []);
 
-  if (loading) return <p className="text-center text-white text-lg">Loading...</p>;
+  if (loading) {
+    return (
+      <>
+      <Navbar/>
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white py-10 px-4">
+        <h1 className="text-3xl md:text-4xl font-bold text-center mb-8">
+          🌌 Astronomy Events
+        </h1>
+
+        <div className="max-w-4xl mx-auto space-y-6">
+          {[...Array(3)].map((_, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-6 p-6 bg-gray-800 rounded-lg shadow-lg animate-pulse"
+            >
+              <div className="w-20 h-20 bg-gray-700 rounded-lg"></div>
+              <div className="flex-1">
+                <div className="h-6 bg-gray-700 rounded w-3/4 mb-2"></div>
+                <div className="h-4 bg-gray-600 rounded w-1/2 mb-3"></div>
+                <div className="h-4 bg-gray-600 rounded w-full"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      </>
+    );
+  }
+
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
+    <>
+    <Navbar/>
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white py-10 px-4">
       <h1 className="text-3xl md:text-4xl font-bold text-center mb-8">
         🌌 Astronomy Events
@@ -29,7 +60,10 @@ export default function Astronomy() {
 
       <div className="max-w-4xl mx-auto space-y-6">
         {events.map((event, index) => (
-          <div key={index} className="flex items-center gap-6 p-6 bg-gray-800 rounded-lg shadow-lg transform transition hover:scale-105">
+          <div
+            key={index}
+            className="flex items-center gap-6 p-6 bg-gray-800 rounded-lg shadow-lg transform transition hover:scale-105"
+          >
             {event.image && (
               <img
                 src={event.image}
@@ -54,5 +88,6 @@ export default function Astronomy() {
         ))}
       </div>
     </div>
+    </>
   );
 }
